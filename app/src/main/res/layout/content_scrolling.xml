@@ -5,13 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ScrollingActivity"
+    tools:context="com.example.mydemoapplication.ScrollingActivity"
     tools:showIn="@layout/activity_scrolling">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/subject_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/design_default_color_error"
+            android:layout_margin="@dimen/text_margin" />
+
+        <TextView
+            android:id="@+id/publish_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="publish_subject"
+            android:onClick="publish_subject"/>
+
+        <TextView
+            android:id="@+id/async_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="async_subject"
+            android:onClick="async_subject"/>
+
+        <TextView
+            android:id="@+id/behavior_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="behavior_subject"
+            android:onClick="behavior_subject"/>
+
+        <TextView
+            android:id="@+id/replay_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="replay_subject"
+            android:onClick="replay_subject"/>
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
