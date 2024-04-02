@@ -1,26 +1,28 @@
 package com.example.mydemoapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.mydemoapplication.R
+import com.example.mydemoapplication.flow.TestFlow
+import com.example.mydemoapplication.notification.NotifyManager
 import com.example.mydemoapplication.rx.RxViewModel
+import com.example.mydemoapplication.thread.TestThread
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.subjects.PublishSubject
-import io.reactivex.rxjava3.subjects.Subject
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ScrollingActivity : AppCompatActivity() {
 
 
     private var rxViewModel: RxViewModel? = null
-
+    private var flowCallback:(()->Unit) = {
+        println("collect:I am got it!!!")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,29 +37,43 @@ class ScrollingActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        rxViewModel?.observerPublishSubject()
-            ?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : Observer<Long> {
-                override fun onSubscribe(d: Disposable) {
+//        rxViewModel?.observerPublishSubject()
+//            ?.observeOn(AndroidSchedulers.mainThread())
+//            ?.subscribe(object : Observer<Long> {
+//                override fun onSubscribe(d: Disposable) {
+//
+//                }
+//
+//                override fun onNext(t: Long) {
+//                    findViewById<TextView>(R.id.subject_message).text =
+//                        findViewById<TextView>(R.id.subject_message).text.toString() + "->" + t
+//                }
+//
+//                override fun onError(e: Throwable) {
+//
+//                }
+//
+//                override fun onComplete() {
+//                    findViewById<TextView>(R.id.subject_message).text =
+//                        findViewById<TextView>(R.id.subject_message).text.toString() + "->END"
+//                }
+//
+//
+//            })
 
-                }
+//        TestFlow.flowTest(flowCallback)
 
-                override fun onNext(t: Long) {
-                    findViewById<TextView>(R.id.subject_message).text =
-                        findViewById<TextView>(R.id.subject_message).text.toString() + "->" + t
-                }
-
-                override fun onError(e: Throwable) {
-
-                }
-
-                override fun onComplete() {
-                    findViewById<TextView>(R.id.subject_message).text =
-                        findViewById<TextView>(R.id.subject_message).text.toString() + "->END"
-                }
-
-
-            })
+//        val test = TestThread()
+//        val test2 = TestThread()
+////        val threadA = Thread { test.runTest("threadA test") }
+////
+////        val threadB = Thread { test.runTest1("threadB test2") }
+//
+////        threadA.start()
+////        threadB.start()
+//
+//        test.runTest("threadA test")
+//        test2.runTest("threadB test")
     }
 
     fun publish_subject(view: View) {
@@ -153,7 +169,14 @@ class ScrollingActivity : AppCompatActivity() {
 
     fun behavior_subject(view: View) {
         rxViewModel?.observerBehaviorSubject()
+            ?.doOnNext {
+                Log.d("jc_test", "thread=${Thread.currentThread().name}")
+            }
+            ?.subscribeOn(Schedulers.computation())
             ?.observeOn(AndroidSchedulers.mainThread())
+            ?.doOnNext {
+                Log.d("jc_test", "thread2=${Thread.currentThread().name}")
+            }
             ?.subscribe(object : Observer<Long> {
                 override fun onSubscribe(d: Disposable) {
 
@@ -201,5 +224,20 @@ class ScrollingActivity : AppCompatActivity() {
 
 
             })
+
+        rxViewModel?.testFromIterable()
+//            ?.observeOn(AndroidSchedulers.mainThread())
+//            ?.subscribe(
+//                {
+//                    System.out.println("rxViewModel?.retry() int=$it")
+//                }, {
+//
+//                    System.out.println("rxViewModel?.retry() error=${it.message}")
+//                })
+    }
+
+    fun create_notify(view: View) {
+        NotifyManager.create(this)
+
     }
 }

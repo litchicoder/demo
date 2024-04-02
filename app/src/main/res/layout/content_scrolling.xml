@@ -52,6 +52,17 @@
             android:layout_margin="@dimen/text_margin"
             android:text="replay_subject"
             android:onClick="replay_subject"/>
+
+          <TextView
+            android:id="@+id/create_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="create_notify"
+            android:onClick="create_notify"/>
+
+
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
