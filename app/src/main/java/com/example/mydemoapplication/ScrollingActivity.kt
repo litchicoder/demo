@@ -11,6 +11,7 @@ import com.example.mydemoapplication.flow.TestFlow
 import com.example.mydemoapplication.notification.NotifyManager
 import com.example.mydemoapplication.rx.RxViewModel
 import com.example.mydemoapplication.thread.TestThread
+import com.example.mydemoapplication.ui.ConnectingView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -74,6 +75,11 @@ class ScrollingActivity : AppCompatActivity() {
 //
 //        test.runTest("threadA test")
 //        test2.runTest("threadB test")
+
+        findViewById<ConnectingView>(R.id.view_connect)
+            .setTimeTextSize(120f)
+            .setTimeUnitTextSize(74f)
+            .startAnimation(200_000)
     }
 
     fun publish_subject(view: View) {

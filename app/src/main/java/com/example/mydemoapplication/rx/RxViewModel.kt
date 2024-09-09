@@ -39,6 +39,7 @@ class RxViewModel() : ViewModel() {
             .doOnNext {
                 Log.d(TAG, "Longerval -> $it")
                 publishSubject.onNext(it)
+                publishSubject.onNext(it)
                 asyncSubject.onNext(it)
                 behaviorSubject.onNext(it)
                 replaySubject.onNext(it)
