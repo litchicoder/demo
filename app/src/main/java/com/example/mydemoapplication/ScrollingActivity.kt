@@ -1,5 +1,6 @@
 package com.example.mydemoapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mydemoapplication.R
 import com.example.mydemoapplication.flow.TestFlow
 import com.example.mydemoapplication.notification.NotifyManager
+import com.example.mydemoapplication.pinchzoomlayout.PinchZoomActivity
 import com.example.mydemoapplication.rx.RxViewModel
 import com.example.mydemoapplication.thread.TestThread
 import com.example.mydemoapplication.ui.ConnectingView
@@ -245,5 +247,9 @@ class ScrollingActivity : AppCompatActivity() {
     fun create_notify(view: View) {
         NotifyManager.create(this)
 
+    }
+
+    fun clickPinchZoom(view: View) {
+        startActivity(Intent(this,PinchZoomActivity::class.java))
     }
 }

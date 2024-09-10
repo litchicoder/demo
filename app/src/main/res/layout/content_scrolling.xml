@@ -68,6 +68,11 @@
             android:layout_marginTop="200dp"
             android:layout_marginHorizontal="50dp"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:text="pinch_zoom"
+            android:onClick="clickPinchZoom"/>
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
