@@ -4,16 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.mydemoapplication.R
-import com.example.mydemoapplication.flow.TestFlow
 import com.example.mydemoapplication.notification.NotifyManager
 import com.example.mydemoapplication.pinchzoomlayout.PinchZoomActivity
 import com.example.mydemoapplication.rx.RxViewModel
-import com.example.mydemoapplication.thread.TestThread
 import com.example.mydemoapplication.ui.ConnectingView
+import com.example.mydemoapplication.ui.SeekBarControllerArea
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -40,6 +40,29 @@ class ScrollingActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        val processView= (findViewById(R.id.result) as SeekBar)
+        (findViewById(R.id.operrator) as SeekBarControllerArea)
+            .apply {
+                mChangeListener = object :
+                    SeekBarControllerArea.OnSeekBarChangeListener{
+                    override fun onProgressChanged(progress: Int) {
+                        Log.d("litchi hah","onProgressChanged progress:$progress")
+                        processView.progress = progress
+                    }
+
+                    override fun onStartTrackingTouch() {
+                        Log.d("litchi hah","onStartTrackingTouch")
+                        mProgress = processView.progress
+                    }
+
+                    override fun onStopTrackingTouch() {
+                        Log.d("litchi hah","onStopTrackingTouch")
+                        mProgress = processView.progress
+                    }
+
+                }
+            }
+
 //        rxViewModel?.observerPublishSubject()
 //            ?.observeOn(AndroidSchedulers.mainThread())
 //            ?.subscribe(object : Observer<Long> {
@@ -147,6 +170,7 @@ class ScrollingActivity : AppCompatActivity() {
 //
 //
 //            })
+
     }
 
     fun async_subject(view: View) {

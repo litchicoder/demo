@@ -13,7 +13,7 @@ class PinchZoomActivity : AppCompatActivity() {
     private var layoutManager: GridLayoutManager? = null
     private var adapter: GridAdapter? = null
     private var itemAnimator: ZoomItemAnimator? = null
-    private var itemAnimator1: ZoomItemAnimator1? = null
+    private var itemAnimator1: ZoomItemAnimator? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,5 +38,6 @@ class PinchZoomActivity : AppCompatActivity() {
         recyclerView?.let {
             itemAnimator?.setup(it)
         }
+
     }
 }
