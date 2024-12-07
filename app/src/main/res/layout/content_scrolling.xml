@@ -37,21 +37,17 @@
             android:text="async_subject"
             android:onClick="async_subject"/>
 
-        <com.example.mydemoapplication.ui.SeekBarControllerArea
-            android:id="@+id/operrator"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="@color/design_default_color_secondary_variant"/>
         <SeekBar
             android:id="@+id/result"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:background="@color/design_default_color_error"/>
-        <com.example.mydemoapplication.ui.CustomSeekBar
-            android:id="@+id/CustomSeekBar"
+
+        <com.example.mydemoapplication.ui.SeekBarControllerArea
+            android:id="@+id/CustomSliderView"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="@color/design_default_color_error"/>
+            android:layout_height="50dp"
+            android:background="#40018786"/>
         <TextView
             android:id="@+id/behavior_subject"
             android:layout_width="wrap_content"

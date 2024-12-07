@@ -1,73 +1,50 @@
 package com.example.mydemoapplication.ui
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
-import android.widget.ProgressBar
+import android.view.MotionEvent
+import android.view.View
 import android.widget.SeekBar
-import androidx.appcompat.widget.AppCompatSeekBar
-import kotlin.math.abs
 
-class SeekBarControllerArea(context: Context?, attrs: AttributeSet?) : AppCompatSeekBar(
-    context!!, attrs
-) {
-    private val paint: Paint
-    var mProgress = 0
-    private val maxProgress = 100
-    private val density: Float
-    private val downX // 记录按下时的X坐标
-            = 0f
-    private var lastValue =0
-    var mChangeListener: OnSeekBarChangeListener? = null
+class SeekBarControllerArea @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
+
+    private var seekBar: SeekBar? = null
+    private var lastTouchX: Float = 0f
+    private var progressChangeSensitivity: Float = 0.3f // 灵敏度系数，根据需要调整
 
     init {
-        density = resources.displayMetrics.density
-        paint = Paint()
-        paint.isAntiAlias = true
-        setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            var startProgress = progress
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-//                if (lastValue == 0) {
-//                    lastValue = seekBar?.progress?:0
-//                } else {
-//                    val v = (seekBar?.progress ?: 0) - lastValue
-//                    mProgress += v
-//                }
-                if (abs(progress - startProgress) > 1) {
-                    startProgress = progress
-                } else {
-                    lastValue = progress
-                    mChangeListener?.onProgressChanged(progress)
-                }
-                Log.d("litchi","onProgressChanged progress:$progress mProgress:$mProgress fromUser:$fromUser")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                Log.d("litchi","onStartTrackingTouch progress:${seekBar?.progress}")
-                startProgress = seekBar?.progress?:0
-                mChangeListener?.onStartTrackingTouch()
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                Log.d("litchi","onStopTrackingTouch progress:${seekBar?.progress}")
-                lastValue = 0
-                mChangeListener?.onStopTrackingTouch()
-            }
-
-        })
+        // 可以在这里进行初始化操作，如果需要的话
     }
 
-    override fun onDraw(canvas: Canvas) {}
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                val currentX = event.x
+                if (lastTouchX != 0f) {
+                    val deltaX = currentX - lastTouchX
+                    // 更新 SeekBar 的进度
+                    seekBar?.let { bar ->
+                        val diff = ((deltaX * progressChangeSensitivity).toInt())
+                        bar.incrementProgressBy(diff)
+                    }
+                }
 
-    interface OnSeekBarChangeListener {
+                lastTouchX = currentX
+                return true
+            }
 
-        fun onProgressChanged(progress: Int)
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                lastTouchX = 0f
+                return true
+            }
+        }
+        return super.onTouchEvent(event)
+    }
 
-        fun onStartTrackingTouch()
-
-        fun onStopTrackingTouch()
+    fun setSeekBar(seekBar: SeekBar) {
+        this.seekBar = seekBar
     }
 }
+

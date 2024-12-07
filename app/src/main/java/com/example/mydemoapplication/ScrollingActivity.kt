@@ -41,27 +41,8 @@ class ScrollingActivity : AppCompatActivity() {
 
     private fun init() {
         val processView= (findViewById(R.id.result) as SeekBar)
-        (findViewById(R.id.operrator) as SeekBarControllerArea)
-            .apply {
-                mChangeListener = object :
-                    SeekBarControllerArea.OnSeekBarChangeListener{
-                    override fun onProgressChanged(progress: Int) {
-                        Log.d("litchi hah","onProgressChanged progress:$progress")
-                        processView.progress = progress
-                    }
+        (findViewById(R.id.CustomSliderView) as SeekBarControllerArea).setSeekBar(processView)
 
-                    override fun onStartTrackingTouch() {
-                        Log.d("litchi hah","onStartTrackingTouch")
-                        mProgress = processView.progress
-                    }
-
-                    override fun onStopTrackingTouch() {
-                        Log.d("litchi hah","onStopTrackingTouch")
-                        mProgress = processView.progress
-                    }
-
-                }
-            }
 
 //        rxViewModel?.observerPublishSubject()
 //            ?.observeOn(AndroidSchedulers.mainThread())
