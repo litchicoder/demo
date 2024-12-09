@@ -41,7 +41,9 @@ class ScrollingActivity : AppCompatActivity() {
 
     private fun init() {
         val processView= (findViewById(R.id.result) as SeekBar)
-        (findViewById(R.id.CustomSliderView) as SeekBarControllerArea).setSeekBar(processView)
+        val process1View= (findViewById(R.id.result1) as SeekBar)
+        (findViewById(R.id.CustomSliderView) as SeekBarControllerArea).setSeekBar(processView,process1View)
+        (findViewById(R.id.CustomSliderViewVertical) as SeekBarControllerArea).setSeekBar(processView,process1View)
 
 
 //        rxViewModel?.observerPublishSubject()
