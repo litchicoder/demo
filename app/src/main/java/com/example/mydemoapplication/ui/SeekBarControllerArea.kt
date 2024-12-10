@@ -4,9 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import androidx.annotation.IntDef
+import kotlin.math.abs
 
 /**
  * `SeekBarControllerArea` 类继承自 `View`，主要用于统一控制一组 `SeekBar` 的进度变化，通过触摸操作来实现。
@@ -14,7 +17,7 @@ import androidx.annotation.IntDef
  */
 class SeekBarControllerArea @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-) : View(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
 
     @Target(AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
     @IntDef(ControlOrientation.HORIZONTAL, ControlOrientation.VERTICAL)
@@ -36,9 +39,41 @@ class SeekBarControllerArea @JvmOverloads constructor(
     private var lastTouchX: Float = 0f
     // 记录上一次触摸的Y坐标，用于计算触摸点的位移
     private var lastTouchY: Float = 0f
-
+    private var startX: Float = 0f
+    private var startY: Float = 0f
+    private var downTime: Long= 0
     // 进度变化的灵敏度系数，通过调整该值可以改变SeekBar进度随触摸移动变化的敏感度，根据实际需要进行调整
     private var progressChangeSensitivity: Float = 0.2f
+
+    override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
+        if (event.pointerCount > 1) {
+            return super.onInterceptTouchEvent(event)
+        }
+
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                downTime = System.currentTimeMillis()
+                startX = event.x
+                startY = event.y
+                return if (isDragEvent(lastTouchX, event.x)) {
+                    true
+                } else {
+                    super.onInterceptTouchEvent(event)
+                }
+            }
+            MotionEvent.ACTION_MOVE -> {
+                return if (isDragEvent(lastTouchX, event.x)) {
+                    true
+                } else {
+                    super.onInterceptTouchEvent(event)
+                }
+            }
+        }
+
+        lastTouchX = event.x
+        lastTouchY = event.y
+        return super.onInterceptTouchEvent(event)
+    }
 
     /**
      * 重写onTouchEvent方法，用于处理触摸事件
@@ -103,6 +138,13 @@ class SeekBarControllerArea @JvmOverloads constructor(
         return super.onTouchEvent(event)
     }
 
+    private fun isDragEvent(lastTouchPos: Float, currentPos: Float): Boolean {
+        val delta = currentPos - lastTouchPos
+        val upTime = System.currentTimeMillis()
+        val moveDuration = upTime - downTime
+        return abs(delta) > CLICK_THRESHOLD && moveDuration > ViewConfiguration.getTapTimeout()
+    }
+
     /**
      * 更新SeekBar的进度的私有方法
      * @param diff SeekBar进度需要变化的值，经过四舍五入后传递进来，用于统一调整所有SeekBar的进度
@@ -130,11 +172,15 @@ class SeekBarControllerArea @JvmOverloads constructor(
         this.seekBarList = seekBar
     }
 
-    /**
-     * 设置进度滑动方向
-     */
-    fun setOrientation(@ControlOrientation orientation: Int) {
-        this.orientation = orientation
+//    /**
+//     * 设置进度滑动方向
+//     */
+//    fun setOrientation(@ControlOrientation orientation: Int) {
+//        this.orientation = orientation
+//    }
+
+    companion object {
+        private const val CLICK_THRESHOLD = 0.2f
     }
 }
 

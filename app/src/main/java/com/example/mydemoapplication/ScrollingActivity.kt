@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.mydemoapplication.R
@@ -258,5 +259,13 @@ class ScrollingActivity : AppCompatActivity() {
 
     fun clickPinchZoom(view: View) {
         startActivity(Intent(this,PinchZoomActivity::class.java))
+    }
+
+    fun onClickOk(view: View) {
+        Toast.makeText(this,"hahahahahahaha",Toast.LENGTH_LONG).show()
+    }
+
+    fun onClickOkk(view: View) {
+        Toast.makeText(this,"okkokkokkokkokkokkokk",Toast.LENGTH_LONG).show()
     }
 }

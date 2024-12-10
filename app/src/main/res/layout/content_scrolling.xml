@@ -53,7 +53,31 @@
             android:id="@+id/CustomSliderView"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#40018786"/>
+            android:background="#40018786">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="click OK"
+                    android:onClick="onClickOk"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="click OK"
+                    android:onClick="onClickOkk"/>
+
+            </LinearLayout>
+
+
+
+        </com.example.mydemoapplication.ui.SeekBarControllerArea>
+
         <com.example.mydemoapplication.ui.SeekBarControllerArea
             android:id="@+id/CustomSliderViewVertical"
             android:layout_width="50dp"
